@@ -24,9 +24,23 @@ To make use of the provider you need to specify `hf_local` before the model name
 tau2 run --domain airline --agent-llm hf_local/Qwen/Qwen3-14B --user-llm hf_local/Qwen/Qwen3-14B --num-trials 1 --num-tasks 10 --max-concurrency 1
 ```
 
+## 🆕 What's New
+
+### 🏆 Live Leaderboard (v0.2.0)
+The τ²-bench leaderboard is now live at **[taubench.com](https://taubench.com)**! 
+
+- **📊 Interactive Rankings**: Compare model performance across all domains
+- **📱 Mobile-Friendly**: View results on any device  
+- **🔍 Detailed Analysis**: Explore trajectories and conversation flows
+- **📥 Easy Submission**: Submit your results directly through the interface
+
+[**→ Visit the Leaderboard**](https://taubench.com) | [**→ Submit Your Results**](#leaderboard-submission)
+
 ## Overview
 
 $\tau^2$-bench implements a simulation framework for evaluating customer service agents across various domains.
+
+**$\tau^2$-bench is the new iteration of the original $\tau$-bench**, featuring code fixes and an additional telecom domain.
 
 Each domain specifies:
 - a policy that the agent must follow
@@ -47,7 +61,7 @@ All the information that an agent developer needs to build an agent for a domain
 1. Clone the repository:
 ```bash
 git clone https://github.com/sierra-research/tau2-bench
-cd tau2
+cd tau2-bench
 ```
 
 2. Create a new environment (optional)
@@ -70,7 +84,7 @@ This will enable you to run the `tau2` command.
 **Note:** If you use `pip install .` (without `-e`), you'll need to set the `TAU2_DATA_DIR` environment variable to point to your data directory:
 
 ```bash
-export TAU2_DATA_DIR=/path/to/your/tau2/data
+export TAU2_DATA_DIR=/path/to/your/tau2-bench/data
 ```
 
 **Check your data directory setup:**
@@ -150,6 +164,92 @@ Visit http://127.0.0.1:8004/redoc to see the domain policy and API documentation
 tau2 check-data
 ```
 This command checks if your data directory is properly configured and all required files are present.
+
+## Leaderboard Submission
+
+To submit your agent results to the τ²-bench leaderboard, you need to prepare a valid submission package that meets specific requirements.
+
+### Requirements for Valid Submissions
+
+Your trajectory runs must follow these constraints:
+
+1. **Complete domain coverage**: Include results for all three domains:
+   - `retail`
+   - `airline` 
+   - `telecom`
+
+2. **Consistent model configuration**: All trajectory files must use:
+   - The same agent LLM with identical arguments across all domains
+   - The same user simulator LLM with identical arguments across all domains
+
+3. **One result per domain**: Each domain should appear exactly once in your submission
+
+4. **All tasks completed**: Run evaluation on all tasks within each domain (don't use `--task-ids` or `--num-tasks` filters)
+
+### Preparing Your Submission
+
+#### Step 1: Run Evaluations
+First, run your agent evaluation on all domains with consistent settings:
+
+```bash
+# Example: Run complete evaluation for all domains
+tau2 run --domain retail --agent-llm gpt-4.1 --user-llm gpt-4.1 --num-trials 4 --save-to my_model_retail
+tau2 run --domain airline --agent-llm gpt-4.1 --user-llm gpt-4.1 --num-trials 4 --save-to my_model_airline  
+tau2 run --domain telecom --agent-llm gpt-4.1 --user-llm gpt-4.1 --num-trials 4 --save-to my_model_telecom
+```
+
+**Important**: Use identical `--agent-llm`, `--user-llm`, and their arguments across all runs.
+
+#### Step 2: Prepare Submission Package
+Use the submission preparation tool to create your leaderboard submission:
+
+```bash
+tau2 submit prepare data/tau2/simulations/my_model_*.json --output ./my_submission
+```
+
+This command will:
+- Verify all trajectory files are valid
+- Check that submission requirements are met
+- Compute performance metrics (Pass^k rates)
+- Prompt for required metadata (model name, organization, contact email)
+- Create a structured submission directory with:
+  - `submission.json`: Metadata and metrics
+  - `trajectories/`: Your trajectory files
+
+#### Step 3: Validate Your Submission
+Before submitting, validate your submission package:
+
+```bash
+tau2 submit validate ./my_submission
+```
+
+This will verify:
+- All required files are present
+- Trajectory files are valid
+- Domain coverage is complete
+- Model configurations are consistent
+
+### Additional Options
+
+#### Skip Verification (if needed)
+```bash
+tau2 submit prepare data/tau2/simulations/my_model_*.json --output ./my_submission --no-verify
+```
+
+#### Verify Individual Trajectory Files
+```bash
+tau2 submit verify-trajs data/tau2/simulations/my_model_*.json
+```
+
+### Submitting to the Leaderboard
+
+Once your submission package is prepared and validated:
+
+1. Review the generated `submission.json` file
+2. Follow the submission guidelines in [web/leaderboard/public/submissions/README.md](web/leaderboard/public/submissions/README.md) to create a Pull Request
+3. Keep your `trajectories/` directory for reference
+
+The leaderboard will display your model's Pass^k success rates (k=1,2,3,4) across all domains.
 
 ## Experiments
 
