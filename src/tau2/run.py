@@ -7,6 +7,10 @@ from typing import Optional
 
 from loguru import logger
 
+
+from tau2.utils.local_provider import setup_huggingface_local_provider
+setup_huggingface_local_provider()
+
 from tau2.agent.llm_agent import LLMAgent, LLMGTAgent, LLMSoloAgent
 from tau2.data_model.simulation import (AgentInfo, Info, Results, RunConfig,
                                         SimulationRun, UserInfo)
@@ -96,6 +100,17 @@ def run_domain(config: RunConfig) -> Results:
     else:
         task_set_name = config.task_set_name
     tasks = get_tasks(task_set_name, config.task_ids, config.num_tasks)
+
+    if "ollama" in config.llm_agent:
+        config.llm_args_agent.update({
+            "api_base": "http://localhost:11434"
+        })
+
+    if "ollama" in config.llm_user:
+        config.llm_args_user.update({
+            "api_base": "http://localhost:11434"
+        })
+
     if "gt" in config.agent:
         total_num_tasks = len(tasks)
         tasks = [task for task in tasks if LLMGTAgent.check_valid_task(task)]

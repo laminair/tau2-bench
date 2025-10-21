@@ -39,6 +39,12 @@ dependencies = [
     "PyYAML>=6.0.2",
     "toml>=0.10.2",
     "langfuse>=2.60.7",
+    "pandas-stubs==2.3.2.250926",
+    "transformers>=4.57.1",
+    "autoawq>=0.2.9",
+    "accelerate>=1.11.0",
+    "torch>=2.9.0",
+    "bitsandbytes>=0.48.1",
 ]
 [project.scripts]
 tau2 = "tau2.cli:main"

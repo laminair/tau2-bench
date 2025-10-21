@@ -23,7 +23,7 @@ def main():
         print("❌ Data directory does not exist!")
         print("\nTo fix this, you can:")
         print("1. Set the TAU2_DATA_DIR environment variable:")
-        print("   export TAU2_DATA_DIR=/path/to/your/tau2-bench/data")
+        print("   export TAU2_DATA_DIR=/path/to/your/tau2/data")
         print("2. Or ensure the data directory exists in the expected location")
         sys.exit(1)
 

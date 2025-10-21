@@ -4,9 +4,6 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![arXiv](http://img.shields.io/badge/cs.AI-arXiv%3A2506.07982-B31B1B.svg?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2506.07982)
-[![blog](https://img.shields.io/badge/blog-tau2--bench-green)](https://sierra.ai/blog/benchmarking-agents-in-collaborative-real-world-scenarios)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/sierra.svg?style=social&label=Follow%20%40SierraPlatform)](https://x.com/SierraPlatform/status/1932464265207889974)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/sierra_last-year-we-introduced-%F0%9D%9C%8F-bench-a-benchmark-activity-7338229693898231809-F8L4?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAdc8goBmhEsiEo1_t_XSJbAnY4_zMfAWcE)
 
 <div align="center">
 <img src="figs/overview.png" width="95%" alt="System Overview"><br>
@@ -17,6 +14,15 @@
 <img src="figs/traj.png" width="95%" alt="Trajectory"><br>
 <em>Figure 2: Trajectory of a conversation between an agent and a user</em>
 </div>
+
+## Custom Integrations
+
+This fork contains a litellm provider to run local models using the transformers library only. 
+To make use of the provider you need to specify `hf_local` before the model name. Example: 
+
+```commandline
+tau2 run --domain airline --agent-llm hf_local/Qwen/Qwen3-14B --user-llm hf_local/Qwen/Qwen3-14B --num-trials 1 --num-tasks 10 --max-concurrency 1
+```
 
 ## Overview
 
@@ -41,7 +47,7 @@ All the information that an agent developer needs to build an agent for a domain
 1. Clone the repository:
 ```bash
 git clone https://github.com/sierra-research/tau2-bench
-cd tau2-bench
+cd tau2
 ```
 
 2. Create a new environment (optional)
@@ -64,7 +70,7 @@ This will enable you to run the `tau2` command.
 **Note:** If you use `pip install .` (without `-e`), you'll need to set the `TAU2_DATA_DIR` environment variable to point to your data directory:
 
 ```bash
-export TAU2_DATA_DIR=/path/to/your/tau2-bench/data
+export TAU2_DATA_DIR=/path/to/your/tau2/data
 ```
 
 **Check your data directory setup:**
