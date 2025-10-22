@@ -43,8 +43,9 @@ dependencies = [
     "transformers>=4.57.1",
     "autoawq>=0.2.9",
     "accelerate>=1.11.0",
-    "torch>=2.9.0",
     "bitsandbytes>=0.48.1",
+    "torch==2.8.0",
+    "vllm>=0.11.0",
 ]
 [project.scripts]
 tau2 = "tau2.cli:main"
