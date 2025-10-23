@@ -18,6 +18,7 @@ MAX_CONCURRENCY=10
 TAU2_PATH="$PARENT_DIR/.venv/bin/tau2"
 HOSTED_VLLM_API_BASE="http://0.0.0.0:8000/v1"
 TAU2_DOMAINS=("airline" "retail" "telecom")
+VLLM_API_KEY="my-api-key"
 
 # Check if required arguments are provided
 if [ $# -lt 1 ]; then
@@ -66,7 +67,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "Starting vLLM server with model: $MODEL_NAME"
-TRANSFORMERS_OFFLINE=1 $PARENT_DIR/.venv/bin/vllm serve $MODEL_NAME --host 0.0.0.0 --port 8000 $VLLM_ARGS &
+TRANSFORMERS_OFFLINE=1 $PARENT_DIR/.venv/bin/vllm serve $MODEL_NAME --host 0.0.0.0 --port 8000 --api-key "$VLLM_API_KEY" $VLLM_ARGS &
 
 VLLM_PID=$!
 echo "vLLM server started with PID: $VLLM_PID"
@@ -89,7 +90,7 @@ if [ $attempt -eq $max_attempts ]; then
     exit 1
 fi
 
-
+export HOSTED_VLLM_API_KEY="$VLLM_API_KEY"
 for DOMAIN in "${TAU2_DOMAINS[@]}"; do
     echo "Running tau2-bench..."
     echo "  Domain: $DOMAIN"
