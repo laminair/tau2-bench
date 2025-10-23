@@ -24,6 +24,8 @@ To make use of the provider you need to specify `hf_local` before the model name
 tau2 run --domain airline --agent-llm hf_local/Qwen/Qwen3-14B --user-llm hf_local/Qwen/Qwen3-14B --num-trials 1 --num-tasks 10 --max-concurrency 1
 ```
 
+We run the setup using pytorch container: nvcr.io/nvidia/pytorch:25.09-py3
+
 ## 🆕 What's New
 
 ### 🏆 Live Leaderboard (v0.2.0)

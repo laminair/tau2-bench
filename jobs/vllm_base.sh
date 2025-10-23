@@ -66,13 +66,14 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "Starting vLLM server with model: $MODEL_NAME"
-$PARENT_DIR/.venv/bin/vllm serve $MODEL_NAME --host 0.0.0.0 --port 8000 $VLLM_ARGS &
+TRANSFORMERS_OFFLINE=1 $PARENT_DIR/.venv/bin/vllm serve $MODEL_NAME --host 0.0.0.0 --port 8000 $VLLM_ARGS &
 
 VLLM_PID=$!
 echo "vLLM server started with PID: $VLLM_PID"
 
-echo "Waiting for vLLM server to be ready..."
-max_attempts=30
+max_attempts=60
+sleep_time=2
+echo "Waiting for vLLM server to be ready ("$(($max_attempts * $sleep_time))" seconds)..."
 attempt=0
 while [ $attempt -lt $max_attempts ]; do
     if curl -s http://localhost:8000/health > /dev/null 2>&1; then
@@ -80,7 +81,7 @@ while [ $attempt -lt $max_attempts ]; do
         break
     fi
     attempt=$((attempt + 1))
-    sleep 2
+    sleep $sleep_time
 done
 
 if [ $attempt -eq $max_attempts ]; then
