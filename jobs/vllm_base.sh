@@ -72,7 +72,7 @@ TRANSFORMERS_OFFLINE=1 $PARENT_DIR/.venv/bin/vllm serve $MODEL_NAME --host 0.0.0
 VLLM_PID=$!
 echo "vLLM server started with PID: $VLLM_PID"
 
-max_attempts=60
+max_attempts=180
 sleep_time=2
 echo "Waiting for vLLM server to be ready ("$(($max_attempts * $sleep_time))" seconds)..."
 attempt=0
