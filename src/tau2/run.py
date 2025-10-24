@@ -1,5 +1,6 @@
 import json
 import multiprocessing
+import os
 import random
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -30,6 +31,9 @@ from tau2.user.user_simulator import DummyUser, get_global_user_sim_guidelines
 from tau2.utils.display import ConsoleDisplay, Text
 from tau2.utils.pydantic_utils import get_pydantic_hash
 from tau2.utils.utils import DATA_DIR, get_commit_hash, get_now, show_dict_diff
+
+
+os.environ["HOSTED_VLLM_API_BASE"] = os.environ.get("HOSTED_VLLM_API_BASE", "http://0.0.0.0:8000/v1")
 
 
 def get_options() -> RegistryInfo:
