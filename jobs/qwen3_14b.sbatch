@@ -16,6 +16,7 @@ enroot start \
     -e HF_HOME=/dss/dssfs04/lwp-dss-0002/pn72yi/pn72yi-dss-0000/ge56heh2/.cache/hf/misc \
     -e HF_DATASETS_CACHE=/dss/dssfs04/lwp-dss-0002/pn72yi/pn72yi-dss-0000/ge56heh2/.cache/datasets \
     -e HF_DATASETS_TRUST_REMOTE_CODE=True \
+    -e HF_HUB_OFFLINE=0 \
     --mount /dss/dssfs04/lwp-dss-0002/pn72yi/pn72yi-dss-0000/ge56heh2/ \
     tmpl_agent_v3 \
     /bin/bash /dss/dssfs04/lwp-dss-0002/pn72yi/pn72yi-dss-0000/ge56heh2/tau2-bench/jobs/vllm_base.sh \
