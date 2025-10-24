@@ -102,7 +102,7 @@ for DOMAIN in "${TAU2_DOMAINS[@]}"; do
     $PARENT_DIR/.venv/bin/tau2 run \
         --domain $DOMAIN \
         --agent-llm hosted_vllm/$MODEL_NAME \
-        --user-llm gpt-4o-mini \
+        --user-llm openai/gpt-4o-mini \
         --num-trials $NUM_TRIALS \
         --max-concurrency $MAX_CONCURRENCY
 
